@@ -1,13 +1,13 @@
 import { Coin } from '../types/coin';
 
-interface GetCoinsParams {
+export interface GetCoinsParams {
   query?: string;
   sort?: string;
   page?: number;
   limit?: number;
 }
 
-interface GetCoinsResponse {
+export interface GetCoinsResponse {
   data: Coin[];
   meta: {
     total: number;
@@ -19,7 +19,7 @@ interface GetCoinsResponse {
   };
 }
 
-export async function getCoins(params?: GetCoinsParams): Promise<Coin[]> {
+export async function getCoins(params?: GetCoinsParams): Promise<GetCoinsResponse> {
   const searchParams = new URLSearchParams();
 
   if (params?.query) searchParams.set('q', params.query);
@@ -35,5 +35,5 @@ export async function getCoins(params?: GetCoinsParams): Promise<Coin[]> {
   }
 
   const result: GetCoinsResponse = await response.json();
-  return result.data;
+  return result;
 }
