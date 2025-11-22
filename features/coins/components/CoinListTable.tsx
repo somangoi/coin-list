@@ -113,14 +113,22 @@ export default function CoinListTable() {
       <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
       <SearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Search by name or symbol..." />
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
+        <table className="w-full border-collapse table-fixed">
+          <colgroup>
+            <col style={{ width: "40px" }} />
+            <col style={{ width: "300px" }} />
+            <col style={{ width: "130px" }} />
+            <col style={{ width: "130px" }} />
+            <col style={{ width: "150px" }} />
+            <col style={{ width: "150px" }} />
+          </colgroup>
           <thead>
             <tr className="border-b">
               <th className="px-4 py-3 text-left font-semibold"></th>
               <th className="px-4 py-3 text-left font-semibold">Coin</th>
               <SortableHeader sortKeyValue="price">Price</SortableHeader>
               <SortableHeader sortKeyValue="change">24h Change</SortableHeader>
-              <SortableHeader sortKeyValue="volume">Volume (24h)</SortableHeader>
+              <SortableHeader sortKeyValue="volume">24h Volume</SortableHeader>
               <SortableHeader sortKeyValue="marketCap">Market Cap</SortableHeader>
             </tr>
           </thead>
@@ -135,7 +143,7 @@ export default function CoinListTable() {
                     <img src={coin.image} alt={coin.name} className="w-6 h-6" />
                     <div className="flex items-center gap-2">
                       <span className="uppercase font-semibold">{coin.symbol}</span>
-                      <span className="text-gray-400">{coin.name}</span>
+                      <span className="text-gray-400 text-sm">{coin.name}</span>
                     </div>
                   </div>
                 </td>
