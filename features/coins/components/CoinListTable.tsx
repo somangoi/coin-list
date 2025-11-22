@@ -1,19 +1,14 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { Coin } from '@/types/coin';
 import { useMemo } from 'react';
+import { Coin } from '../types/coin';
+import { getCoins } from '../api/getCoins';
 
 export default function CoinListTable() {
   const { data: coins, isLoading, error } = useQuery<Coin[]>({
     queryKey: ['coins'],
-    queryFn: async () => {
-      const response = await fetch('/api/coins');
-      if (!response.ok) {
-        throw new Error('Failed to fetch coins');
-      }
-      return response.json();
-    },
+    queryFn: getCoins,
   });
 
   const sortedCoins = useMemo(() => {

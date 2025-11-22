@@ -1,4 +1,4 @@
-import CoinListTable from './components/CoinListTable';
+import CoinListTable from '@/features/coins/components/CoinListTable';
 
 export default function CoinListPage() {
   return (
