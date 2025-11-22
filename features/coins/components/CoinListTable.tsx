@@ -1,12 +1,17 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Coin } from "../types/coin";
 import { getCoins } from "../api/getCoins";
 import FavoriteButton from "@/features/favorites/components/FavoriteButton";
+import TabNavigation from "@/features/favorites/components/TabNavigation";
+import { useFavoriteStore } from "@/features/favorites/stores/useFavoriteStore";
 
 export default function CoinListTable() {
+  const [activeTab, setActiveTab] = useState<'all' | 'favorites'>('all');
+  const { favoriteIds } = useFavoriteStore();
+
   const {
     data: coins,
     isLoading,
@@ -18,8 +23,14 @@ export default function CoinListTable() {
 
   const sortedCoins = useMemo(() => {
     if (!coins) return [];
-    return [...coins].sort((a, b) => b.current_price - a.current_price);
-  }, [coins]);
+    const sorted = [...coins].sort((a, b) => b.current_price - a.current_price);
+
+    if (activeTab === 'favorites') {
+      return sorted.filter(coin => favoriteIds.includes(coin.id));
+    }
+
+    return sorted;
+  }, [coins, activeTab, favoriteIds]);
 
   if (isLoading) {
     return (
@@ -38,8 +49,10 @@ export default function CoinListTable() {
   }
 
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full border-collapse">
+    <div>
+      <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse">
         <thead>
           <tr className="border-b">
             <th className="px-4 py-3 text-left font-semibold"></th>
@@ -78,6 +91,7 @@ export default function CoinListTable() {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 }
