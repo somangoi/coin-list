@@ -48,7 +48,7 @@ export default function CoinListTableContent({ filteredCoins, hasNextPage, table
   const { rows } = table.getRowModel();
 
   return (
-    <div ref={tableContainerRef} className="overflow-auto h-[600px]">
+    <div ref={tableContainerRef} className="overflow-auto h-full align-top">
       <table className="w-full border-collapse" style={{ tableLayout: "fixed" }}>
         <thead className="sticky top-0 bg-white z-10">
           {table.getHeaderGroups().map((headerGroup) => (
@@ -101,11 +101,7 @@ export default function CoinListTableContent({ filteredCoins, hasNextPage, table
                   </td>
                 ) : row ? (
                   row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className={`px-4 py-3 ${cell.column.id === "favorite" || cell.column.id === "coin" ? "text-left" : "text-right"}`}
-                      style={{ width: `${cell.column.getSize()}%` }}
-                    >
+                    <td key={cell.id} className={`px-4 py-3 ${cell.column.id === "favorite" || cell.column.id === "coin" ? "text-left" : "text-right"}`} style={{ width: `${cell.column.getSize()}%` }}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                   ))
